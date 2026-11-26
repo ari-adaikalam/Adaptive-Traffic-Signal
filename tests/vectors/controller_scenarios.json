@@ -1,0 +1,1327 @@
+[
+ {
+  "name": "no data: fixed 32 second cycle with default greens",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [],
+  "expect": [
+   {
+    "t": 0,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 10
+   },
+   {
+    "t": 9,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 1
+   },
+   {
+    "t": 10,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 4
+   },
+   {
+    "t": 13,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 1
+   },
+   {
+    "t": 14,
+    "phase": "T13",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 2
+   },
+   {
+    "t": 15,
+    "phase": "T13",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 1
+   },
+   {
+    "t": 16,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10
+   },
+   {
+    "t": 25,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 1
+   },
+   {
+    "t": 26,
+    "phase": "T24",
+    "stage": "yellow",
+    "heads": [
+     "red",
+     "yellow",
+     "red",
+     "yellow"
+    ],
+    "remaining": 4
+   },
+   {
+    "t": 30,
+    "phase": "T24",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 2
+   },
+   {
+    "t": 32,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 10
+   }
+  ]
+ },
+ {
+  "name": "counts set the green of the next phase",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 10,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 1,
+      "buses": 1,
+      "cars": 4,
+      "trucks": 2
+     }
+    }
+   },
+   {
+    "t": 10,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 3,
+      "trucks": 0
+     }
+    }
+   }
+  ],
+  "expect": [
+   {
+    "t": 16,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 18
+   },
+   {
+    "t": 33,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 1
+   },
+   {
+    "t": 34,
+    "phase": "T24",
+    "stage": "yellow",
+    "heads": [
+     "red",
+     "yellow",
+     "red",
+     "yellow"
+    ],
+    "remaining": 4
+   },
+   {
+    "t": 38,
+    "phase": "T24",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 2
+   },
+   {
+    "t": 40,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 10
+   }
+  ]
+ },
+ {
+  "name": "an approach with no count keeps the default as a floor",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 10,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 1,
+      "trucks": 0
+     }
+    }
+   }
+  ],
+  "expect": [
+   {
+    "t": 16,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10
+   }
+  ]
+ },
+ {
+  "name": "stale counts are ignored",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 0,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 100
+     }
+    }
+   },
+   {
+    "t": 0,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 100
+     }
+    }
+   }
+  ],
+  "expect": [
+   {
+    "t": 16,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10
+   }
+  ]
+ },
+ {
+  "name": "huge counts clamp to max green",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 10,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 100
+     }
+    }
+   },
+   {
+    "t": 10,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 100
+     }
+    }
+   }
+  ],
+  "expect": [
+   {
+    "t": 16,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 60
+   },
+   {
+    "t": 75,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 1
+   },
+   {
+    "t": 76,
+    "phase": "T24",
+    "stage": "yellow",
+    "heads": [
+     "red",
+     "yellow",
+     "red",
+     "yellow"
+    ],
+    "remaining": 4
+   }
+  ]
+ },
+ {
+  "name": "empty phase is skipped twice, then served at min green",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 8,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 18,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 18,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 28,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 28,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   }
+  ],
+  "expect": [
+   {
+    "t": 9,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 1
+   },
+   {
+    "t": 10,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 10
+   },
+   {
+    "t": 19,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 1
+   },
+   {
+    "t": 20,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 10
+   },
+   {
+    "t": 29,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 1
+   },
+   {
+    "t": 30,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 4
+   },
+   {
+    "t": 34,
+    "phase": "T13",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 2
+   },
+   {
+    "t": 36,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 5
+   }
+  ]
+ },
+ {
+  "name": "max_skips 0 never skips",
+  "config": {
+   "max_skips": 0,
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 8,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   }
+  ],
+  "expect": [
+   {
+    "t": 10,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 4
+   },
+   {
+    "t": 16,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 5
+   }
+  ]
+ },
+ {
+  "name": "a failed detection makes the phase unknown, so it is not skipped",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 8,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 9,
+    "report": {
+     "approach": 4,
+     "counts": null
+    }
+   }
+  ],
+  "expect": [
+   {
+    "t": 10,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 4
+   },
+   {
+    "t": 16,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10
+   }
+  ]
+ },
+ {
+  "name": "a resting phase takes new counts into account",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 8,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 9,
+    "report": {
+     "approach": 1,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 10,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 9,
+    "report": {
+     "approach": 3,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 10,
+      "trucks": 0
+     }
+    }
+   }
+  ],
+  "expect": [
+   {
+    "t": 10,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 20
+   }
+  ]
+ },
+ {
+  "name": "no all-red gap",
+  "config": {
+   "all_red": 0,
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [],
+  "expect": [
+   {
+    "t": 10,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 4
+   },
+   {
+    "t": 14,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10
+   }
+  ]
+ },
+ {
+  "name": "custom yellow, all-red, default and min green",
+  "config": {
+   "yellow": 3,
+   "all_red": 1,
+   "default_green": 4,
+   "min_green": 2,
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [],
+  "expect": [
+   {
+    "t": 0,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 4
+   },
+   {
+    "t": 3,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 1
+   },
+   {
+    "t": 4,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 3
+   },
+   {
+    "t": 6,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 1
+   },
+   {
+    "t": 7,
+    "phase": "T13",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 1
+   },
+   {
+    "t": 8,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 4
+   },
+   {
+    "t": 11,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 1
+   },
+   {
+    "t": 12,
+    "phase": "T24",
+    "stage": "yellow",
+    "heads": [
+     "red",
+     "yellow",
+     "red",
+     "yellow"
+    ],
+    "remaining": 3
+   }
+  ]
+ },
+ {
+  "name": "a single spike among three reports does not set the green",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 6,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 2,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 7,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 3,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 30,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 6,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 2,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 7,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 3,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 30,
+      "trucks": 0
+     }
+    }
+   }
+  ],
+  "expect": [
+   {
+    "t": 16,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 6
+   }
+  ]
+ },
+ {
+  "name": "a spike among zeros does not wake an empty phase",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 6,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 6,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 7,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 7,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 9,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 9,
+      "trucks": 0
+     }
+    }
+   }
+  ],
+  "expect": [
+   {
+    "t": 10,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 10
+   }
+  ]
+ },
+ {
+  "name": "with only two reports the upper one is used",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 7,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 2,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 30,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 7,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 2,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 30,
+      "trucks": 0
+     }
+    }
+   }
+  ],
+  "expect": [
+   {
+    "t": 16,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 60
+   }
+  ]
+ },
+ {
+  "name": "a report older than the ttl drops out of the median",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 0,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 30,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 2,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 0,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 30,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 2,
+      "trucks": 0
+     }
+    }
+   }
+  ],
+  "expect": [
+   {
+    "t": 16,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 5
+   }
+  ]
+ },
+ {
+  "name": "a failed detection erases earlier reports",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 6,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 30,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 7,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 30,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 2,
+     "counts": null
+    }
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 3,
+      "trucks": 0
+     }
+    }
+   }
+  ],
+  "expect": [
+   {
+    "t": 16,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10
+   }
+  ]
+ }
+]

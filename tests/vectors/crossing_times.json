@@ -1,0 +1,76 @@
+{
+ "cases": [
+  {
+   "name": "12.8 m at 1.2 m/s with 4 s yellow",
+   "width_cm": 1280,
+   "speed_cm_s": 120,
+   "yellow": 4,
+   "total": 11,
+   "clearance_1": 7
+  },
+  {
+   "name": "9.6 m",
+   "width_cm": 960,
+   "speed_cm_s": 120,
+   "yellow": 4,
+   "total": 8,
+   "clearance_1": 4
+  },
+  {
+   "name": "19.2 m",
+   "width_cm": 1920,
+   "speed_cm_s": 120,
+   "yellow": 4,
+   "total": 16,
+   "clearance_1": 12
+  },
+  {
+   "name": "exact division 12 m gives 10 s",
+   "width_cm": 1200,
+   "speed_cm_s": 120,
+   "yellow": 4,
+   "total": 10,
+   "clearance_1": 6
+  },
+  {
+   "name": "one centimetre over rounds up to 11 s",
+   "width_cm": 1201,
+   "speed_cm_s": 120,
+   "yellow": 4,
+   "total": 11,
+   "clearance_1": 7
+  },
+  {
+   "name": "short crossing is all yellow",
+   "width_cm": 400,
+   "speed_cm_s": 120,
+   "yellow": 4,
+   "total": 4,
+   "clearance_1": 0
+  },
+  {
+   "name": "tiny crossing, clearance 1 never negative",
+   "width_cm": 100,
+   "speed_cm_s": 120,
+   "yellow": 4,
+   "total": 1,
+   "clearance_1": 0
+  },
+  {
+   "name": "slower walkers at 1.0 m/s",
+   "width_cm": 1280,
+   "speed_cm_s": 100,
+   "yellow": 4,
+   "total": 13,
+   "clearance_1": 9
+  },
+  {
+   "name": "yellow 5",
+   "width_cm": 1280,
+   "speed_cm_s": 120,
+   "yellow": 5,
+   "total": 11,
+   "clearance_1": 6
+  }
+ ]
+}

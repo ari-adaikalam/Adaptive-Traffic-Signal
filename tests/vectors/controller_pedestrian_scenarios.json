@@ -1,0 +1,1001 @@
+[
+ {
+  "name": "a request waits for the next compatible green, then walk, flashing and solid red",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 0,
+    "request": 2,
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 0,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 10,
+    "signals": {
+     "C2": "stop"
+    }
+   },
+   {
+    "t": 31,
+    "phase": "T24",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 1,
+    "signals": {
+     "C2": "stop"
+    }
+   },
+   {
+    "t": 32,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 13,
+    "signals": {
+     "C2": "walk",
+     "C4": "stop"
+    }
+   },
+   {
+    "t": 37,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 8,
+    "signals": {
+     "C2": "walk"
+    }
+   },
+   {
+    "t": 38,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 7,
+    "signals": {
+     "C2": "clear"
+    }
+   },
+   {
+    "t": 44,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 1,
+    "signals": {
+     "C2": "clear"
+    }
+   },
+   {
+    "t": 45,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 4,
+    "signals": {
+     "C2": "clear"
+    }
+   },
+   {
+    "t": 48,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 1,
+    "signals": {
+     "C2": "clear"
+    }
+   },
+   {
+    "t": 49,
+    "phase": "T13",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 2,
+    "signals": {
+     "C2": "stop"
+    }
+   },
+   {
+    "t": 50,
+    "phase": "T13",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 1,
+    "signals": {
+     "C2": "stop"
+    }
+   },
+   {
+    "t": 51,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10,
+    "signals": {
+     "C2": "stop"
+    }
+   },
+   {
+    "t": 67,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 10,
+    "signals": {
+     "C2": "stop"
+    }
+   }
+  ]
+ },
+ {
+  "name": "a crossing for the other phase is served when that phase opens, and is stop before that",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 0,
+    "request": 1,
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 5,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 5,
+    "signals": {
+     "C1": "stop",
+     "C2": "stop"
+    }
+   },
+   {
+    "t": 16,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 13,
+    "signals": {
+     "C1": "walk",
+     "C3": "stop"
+    }
+   },
+   {
+    "t": 21,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 8,
+    "signals": {
+     "C1": "walk"
+    }
+   },
+   {
+    "t": 22,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 7,
+    "signals": {
+     "C1": "clear"
+    }
+   },
+   {
+    "t": 28,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 1,
+    "signals": {
+     "C1": "clear"
+    }
+   },
+   {
+    "t": 29,
+    "phase": "T24",
+    "stage": "yellow",
+    "heads": [
+     "red",
+     "yellow",
+     "red",
+     "yellow"
+    ],
+    "remaining": 4,
+    "signals": {
+     "C1": "clear"
+    }
+   },
+   {
+    "t": 33,
+    "phase": "T24",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 2,
+    "signals": {
+     "C1": "stop"
+    }
+   },
+   {
+    "t": 35,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 10,
+    "signals": {
+     "C1": "stop"
+    }
+   }
+  ]
+ },
+ {
+  "name": "a request made just before the green opens is served at once",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 31,
+    "request": 2,
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 31,
+    "phase": "T24",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 1,
+    "signals": {
+     "C2": "stop"
+    }
+   },
+   {
+    "t": 32,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 13,
+    "signals": {
+     "C2": "walk"
+    }
+   }
+  ]
+ },
+ {
+  "name": "a request made one second after the green opened waits a full cycle",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 32,
+    "request": 2,
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 32,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 10,
+    "signals": {
+     "C2": "stop"
+    }
+   },
+   {
+    "t": 33,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 9,
+    "signals": {
+     "C2": "stop"
+    }
+   },
+   {
+    "t": 63,
+    "phase": "T24",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 1,
+    "signals": {
+     "C2": "stop"
+    }
+   },
+   {
+    "t": 64,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 13,
+    "signals": {
+     "C2": "walk"
+    }
+   }
+  ]
+ },
+ {
+  "name": "a second press while waiting changes nothing",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 0,
+    "request": 2,
+    "result": true
+   },
+   {
+    "t": 1,
+    "request": 2,
+    "result": false
+   }
+  ],
+  "expect": [
+   {
+    "t": 0,
+    "pedestrian_requests": []
+   },
+   {
+    "t": 1,
+    "pedestrian_requests": [
+     2
+    ]
+   },
+   {
+    "t": 32,
+    "pedestrian_requests": []
+   }
+  ]
+ },
+ {
+  "name": "busy vehicles stretch the green and the walk stays on until clearance starts",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 10,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 1,
+      "buses": 1,
+      "cars": 4,
+      "trucks": 2
+     }
+    }
+   },
+   {
+    "t": 10,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 3,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 0,
+    "request": 1,
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 16,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 18,
+    "signals": {
+     "C1": "walk"
+    }
+   },
+   {
+    "t": 26,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 8,
+    "signals": {
+     "C1": "walk"
+    }
+   },
+   {
+    "t": 27,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 7,
+    "signals": {
+     "C1": "clear"
+    }
+   },
+   {
+    "t": 33,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 1,
+    "signals": {
+     "C1": "clear"
+    }
+   },
+   {
+    "t": 34,
+    "phase": "T24",
+    "stage": "yellow",
+    "heads": [
+     "red",
+     "yellow",
+     "red",
+     "yellow"
+    ],
+    "remaining": 4,
+    "signals": {
+     "C1": "clear"
+    }
+   },
+   {
+    "t": 38,
+    "phase": "T24",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 2,
+    "signals": {
+     "C1": "stop"
+    }
+   }
+  ]
+ },
+ {
+  "name": "crossings of different widths clear at different times in one green",
+  "config": {
+   "crossing_widths_cm": [
+    1280,
+    960,
+    1280,
+    1920
+   ],
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 0,
+    "request": 2,
+    "result": true
+   },
+   {
+    "t": 0,
+    "request": 4,
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 32,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 18,
+    "signals": {
+     "C2": "walk",
+     "C4": "walk"
+    }
+   },
+   {
+    "t": 37,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 13,
+    "signals": {
+     "C2": "walk",
+     "C4": "walk"
+    }
+   },
+   {
+    "t": 38,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 12,
+    "signals": {
+     "C2": "walk",
+     "C4": "clear"
+    }
+   },
+   {
+    "t": 45,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 5,
+    "signals": {
+     "C2": "walk",
+     "C4": "clear"
+    }
+   },
+   {
+    "t": 46,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 4,
+    "signals": {
+     "C2": "clear",
+     "C4": "clear"
+    }
+   },
+   {
+    "t": 49,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 1,
+    "signals": {
+     "C2": "clear",
+     "C4": "clear"
+    }
+   },
+   {
+    "t": 50,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 4,
+    "signals": {
+     "C2": "clear",
+     "C4": "clear"
+    }
+   },
+   {
+    "t": 54,
+    "phase": "T13",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 2,
+    "signals": {
+     "C2": "stop",
+     "C4": "stop"
+    }
+   },
+   {
+    "t": 56,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10,
+    "signals": {}
+   }
+  ]
+ },
+ {
+  "name": "a waiting pedestrian stops an empty phase from being skipped",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 8,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 5,
+    "request": 1,
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 10,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 4,
+    "signals": {}
+   },
+   {
+    "t": 16,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 13,
+    "signals": {
+     "C1": "walk"
+    }
+   }
+  ]
+ },
+ {
+  "name": "a phase that served pedestrians hands over even when the other phase is empty",
+  "config": {
+   "max_skips": 4,
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 0,
+    "request": 2,
+    "result": true
+   },
+   {
+    "t": 30,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 30,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 40,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 40,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 50,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 50,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   }
+  ],
+  "expect": [
+   {
+    "t": 32,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 13,
+    "signals": {
+     "C2": "walk"
+    }
+   },
+   {
+    "t": 45,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 4,
+    "signals": {
+     "C2": "clear"
+    }
+   },
+   {
+    "t": 51,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 5,
+    "signals": {}
+   }
+  ]
+ }
+]

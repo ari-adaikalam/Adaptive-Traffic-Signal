@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>People gallery</title>
+<style>html,body{margin:0;height:100%;background:#cfd8dc;font:13px system-ui}canvas{display:block}#t{position:fixed;left:12px;top:10px;background:#fffc;padding:6px 10px;border-radius:8px}</style>
+<script type="importmap">
+{"imports": {"three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}, "integrity": {"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js": "sha384-61S/Nu32S3E5+n+KpCOTb2eRYps6fVKm+9Gz1QBvSePFthb46f063Aa/qe/lykFZ", "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js": "sha384-qlO/ZugKPxAQUAvTlQoo0QECzxJIJySZmCF/DHdb2Xn/hHndFwX/vfUAC9Hbk6LP", "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/geometries/RoundedBoxGeometry.js": "sha384-S52/WAm3DaIIFna675h5dmavqea/akLlPFtPdnzgWWhnz+/nMqR6PPsSXPOd8Gpw", "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/utils/BufferGeometryUtils.js": "sha384-jHGXS4+FuVOBnZkNme2ury3Ccg5DWDLYK22xX/WGdZCZsjRM4J+3n6Qc4CXx1Hjf"}}
+</script>
+</head>
+<body>
+<div id="t">People, a pram and a cyclist, built in code. Top rows walking, then sitting, children, older people, a pram and cyclists.</div>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { animateCyclist, buildCyclist, buildPerson, buildPram, poseSitting, walkPose, reachWith } from '../src/scene/people.js';
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(innerWidth, innerHeight); renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.shadowMap.enabled = true;
+document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene(); scene.background = new THREE.Color(0xcfd8dc);
+const camera = new THREE.PerspectiveCamera(40, innerWidth / innerHeight, 0.1, 500);
+const controls = new OrbitControls(camera, renderer.domElement);
+scene.add(new THREE.HemisphereLight(0xffffff, 0x8899aa, 1.1));
+const sun = new THREE.DirectionalLight(0xffffff, 2.4); sun.position.set(20, 40, 25); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048);
+Object.assign(sun.shadow.camera, { left: -60, right: 60, top: 60, bottom: -60, near: 1, far: 140 }); scene.add(sun);
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), new THREE.MeshStandardMaterial({ color: 0x59606a, roughness: 0.95 })); ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
+
+const things = [];
+let x = 0;
+const place = (obj, dx = 1.2, y = 0) => { obj.position.set(x, y, 0); scene.add(obj); x += dx; return obj; };
+for (let i = 1; i <= 14; i += 1) { const p = place(buildPerson(i * 7)); things.push(() => walkPose(p, performance.now() / 1000, 1)); }
+x = 0;
+const rowZ = (z, fn) => { const start = x; fn(); void start; };
+let z = 4;
+for (let i = 1; i <= 6; i += 1) { const p = buildPerson(i * 11 + 3); p.position.set(i * 1.4, 0, z); poseSitting(p, 0.45); scene.add(p); const bench = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.45, 1.0), new THREE.MeshStandardMaterial({ color: '#8a5a2b' })); bench.position.set(i * 1.4 - 0.1, 0.225, z); scene.add(bench); }
+z = 8;
+for (let i = 1; i <= 6; i += 1) { const p = buildPerson(i * 5, { kind: i < 4 ? 'child' : 'elder' }); p.position.set(i * 1.4, 0, z); scene.add(p); things.push(() => walkPose(p, performance.now() / 1000, 1)); }
+z = 12;
+for (let i = 1; i <= 3; i += 1) { const w = buildPerson(i * 9); w.position.set(i * 3, 0, z); scene.add(w); const pr = buildPram(i); pr.mesh.position.set(i * 3 + 0.83, 0, z); scene.add(pr.mesh); const holds = [[w.userData.armL, 0.2], [w.userData.armR, -0.2]].map(([arm, dz]) => [arm, reachWith(w, arm, new THREE.Vector3(0.38, 1.05, dz))]); things.push(() => { walkPose(w, performance.now() / 1000, 1); pr.update(performance.now() / 1000, 1); for (const [arm, r] of holds) arm.rotation.set(r.x, 0, r.z); }); }
+z = 16;
+for (let i = 1; i <= 3; i += 1) { const c = buildCyclist(i * 13); c.position.set(i * 3, 0, z); scene.add(c); things.push(() => animateCyclist(c, performance.now() / 1000, 1)); }
+camera.position.set(9, 4.5, 24); controls.target.set(9, 0.9, 8);
+controls.update();
+function frame() { for (const t of things) t(); renderer.render(scene, camera); requestAnimationFrame(frame); }
+frame();
+window.__gallery = { scene, camera, controls, THREE, renderer };
+</script>
+</body>
+</html>

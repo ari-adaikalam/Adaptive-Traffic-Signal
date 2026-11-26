@@ -1,0 +1,764 @@
+{
+ "valid": [
+  {
+   "name": "empty frame clamps to min",
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": 0,
+    "trucks": 0
+   },
+   "expect": 5
+  },
+  {
+   "name": "one car",
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": 1,
+    "trucks": 0
+   },
+   "expect": 5
+  },
+  {
+   "name": "three cars",
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": 3,
+    "trucks": 0
+   },
+   "expect": 6
+  },
+  {
+   "name": "one bike clamps to min",
+   "counts": {
+    "bikes": 1,
+    "buses": 0,
+    "cars": 0,
+    "trucks": 0
+   },
+   "expect": 5
+  },
+  {
+   "name": "three bikes",
+   "counts": {
+    "bikes": 3,
+    "buses": 0,
+    "cars": 0,
+    "trucks": 0
+   },
+   "expect": 5
+  },
+  {
+   "name": "bike and car",
+   "counts": {
+    "bikes": 1,
+    "buses": 0,
+    "cars": 1,
+    "trucks": 0
+   },
+   "expect": 5
+  },
+  {
+   "name": "hardware run: 1 bike 1 bus 4 cars 2 trucks",
+   "counts": {
+    "bikes": 1,
+    "buses": 1,
+    "cars": 4,
+    "trucks": 2
+   },
+   "expect": 18
+  },
+  {
+   "name": "exactly max",
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": 30,
+    "trucks": 0
+   },
+   "expect": 60
+  },
+  {
+   "name": "just under max",
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": 29,
+    "trucks": 0
+   },
+   "expect": 58
+  },
+  {
+   "name": "just over max clamps",
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": 31,
+    "trucks": 0
+   },
+   "expect": 60
+  },
+  {
+   "name": "huge trucks clamp to max",
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": 0,
+    "trucks": 100
+   },
+   "expect": 60
+  },
+  {
+   "name": "largest accepted counts",
+   "counts": {
+    "bikes": 1000,
+    "buses": 1000,
+    "cars": 1000,
+    "trucks": 1000
+   },
+   "expect": 60
+  },
+  {
+   "name": "ceiling with 3 lanes: 16/3",
+   "config": {
+    "lanes_per_approach": 3
+   },
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": 4,
+    "trucks": 0
+   },
+   "expect": 6
+  },
+  {
+   "name": "ceiling with odd clearance 9/2",
+   "config": {
+    "bike_time": 3,
+    "min_green": 1
+   },
+   "counts": {
+    "bikes": 3,
+    "buses": 0,
+    "cars": 0,
+    "trucks": 0
+   },
+   "expect": 5
+  },
+  {
+   "name": "ceiling with odd clearance 3/2",
+   "config": {
+    "bike_time": 3,
+    "min_green": 1
+   },
+   "counts": {
+    "bikes": 1,
+    "buses": 0,
+    "cars": 0,
+    "trucks": 0
+   },
+   "expect": 2
+  },
+  {
+   "name": "custom max",
+   "config": {
+    "max_green": 20
+   },
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": 30,
+    "trucks": 0
+   },
+   "expect": 20
+  }
+ ],
+ "invalid": [
+  {
+   "name": "negative",
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": -1,
+    "trucks": 0
+   }
+  },
+  {
+   "name": "above per-class cap",
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": 1001,
+    "trucks": 0
+   }
+  },
+  {
+   "name": "float",
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": 1.5,
+    "trucks": 0
+   }
+  },
+  {
+   "name": "bool",
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": true,
+    "trucks": 0
+   }
+  },
+  {
+   "name": "string",
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": "3",
+    "trucks": 0
+   }
+  },
+  {
+   "name": "null",
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": null,
+    "trucks": 0
+   }
+  }
+ ],
+ "class_ids": {
+  "valid": [
+   {
+    "ids": [],
+    "expect": {
+     "bikes": 0,
+     "buses": 0,
+     "cars": 0,
+     "trucks": 0
+    }
+   },
+   {
+    "ids": [
+     2,
+     2,
+     0,
+     1,
+     3,
+     3
+    ],
+    "expect": {
+     "bikes": 1,
+     "buses": 1,
+     "cars": 2,
+     "trucks": 2
+    }
+   },
+   {
+    "ids": [
+     7,
+     -1,
+     2
+    ],
+    "expect": {
+     "bikes": 0,
+     "buses": 0,
+     "cars": 1,
+     "trucks": 0
+    }
+   }
+  ],
+  "invalid": [
+   [
+    1.5
+   ],
+   [
+    true
+   ],
+   [
+    "2"
+   ]
+  ]
+ },
+ "arrow": [
+  {
+   "name": "empty lane gets the minimum",
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": 0,
+    "trucks": 0
+   },
+   "expect": 5
+  },
+  {
+   "name": "one car is 4 s, raised to the minimum",
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": 1,
+    "trucks": 0
+   },
+   "expect": 5
+  },
+  {
+   "name": "two cars",
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": 2,
+    "trucks": 0
+   },
+   "expect": 8
+  },
+  {
+   "name": "three cars",
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": 3,
+    "trucks": 0
+   },
+   "expect": 12
+  },
+  {
+   "name": "four cars clamp at the arrow maximum",
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": 4,
+    "trucks": 0
+   },
+   "expect": 15
+  },
+  {
+   "name": "mixed vehicles 6+6+4+2 clamp at the arrow maximum",
+   "counts": {
+    "bikes": 1,
+    "buses": 1,
+    "cars": 1,
+    "trucks": 1
+   },
+   "expect": 15
+  },
+  {
+   "name": "a bike is 2 s, raised to the minimum",
+   "counts": {
+    "bikes": 1,
+    "buses": 0,
+    "cars": 0,
+    "trucks": 0
+   },
+   "expect": 5
+  },
+  {
+   "name": "custom arrow maximum",
+   "config": {
+    "max_arrow_green": 20
+   },
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": 4,
+    "trucks": 0
+   },
+   "expect": 16
+  },
+  {
+   "name": "custom times, nothing divided",
+   "config": {
+    "car_time": 1,
+    "min_green": 1
+   },
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": 3,
+    "trucks": 0
+   },
+   "expect": 3
+  }
+ ],
+ "median": {
+  "valid": [
+   {
+    "name": "one report",
+    "reports": [
+     {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 4,
+      "trucks": 0
+     }
+    ],
+    "expect": {
+     "bikes": 0,
+     "buses": 0,
+     "cars": 4,
+     "trucks": 0
+    }
+   },
+   {
+    "name": "two reports take the upper",
+    "reports": [
+     {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 2,
+      "trucks": 0
+     },
+     {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 30,
+      "trucks": 0
+     }
+    ],
+    "expect": {
+     "bikes": 0,
+     "buses": 0,
+     "cars": 30,
+     "trucks": 0
+    }
+   },
+   {
+    "name": "three reports take the middle",
+    "reports": [
+     {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 2,
+      "trucks": 0
+     },
+     {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 3,
+      "trucks": 0
+     },
+     {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 30,
+      "trucks": 0
+     }
+    ],
+    "expect": {
+     "bikes": 0,
+     "buses": 0,
+     "cars": 3,
+     "trucks": 0
+    }
+   },
+   {
+    "name": "order does not matter",
+    "reports": [
+     {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 30,
+      "trucks": 0
+     },
+     {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 2,
+      "trucks": 0
+     },
+     {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 3,
+      "trucks": 0
+     }
+    ],
+    "expect": {
+     "bikes": 0,
+     "buses": 0,
+     "cars": 3,
+     "trucks": 0
+    }
+   },
+   {
+    "name": "each class has its own median",
+    "reports": [
+     {
+      "bikes": 1,
+      "buses": 0,
+      "cars": 5,
+      "trucks": 2
+     },
+     {
+      "bikes": 0,
+      "buses": 1,
+      "cars": 1,
+      "trucks": 9
+     },
+     {
+      "bikes": 3,
+      "buses": 2,
+      "cars": 3,
+      "trucks": 0
+     }
+    ],
+    "expect": {
+     "bikes": 1,
+     "buses": 1,
+     "cars": 3,
+     "trucks": 2
+    }
+   },
+   {
+    "name": "ties",
+    "reports": [
+     {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 5,
+      "trucks": 0
+     },
+     {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 5,
+      "trucks": 0
+     },
+     {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 1,
+      "trucks": 0
+     }
+    ],
+    "expect": {
+     "bikes": 0,
+     "buses": 0,
+     "cars": 5,
+     "trucks": 0
+    }
+   },
+   {
+    "name": "four reports take the upper middle",
+    "reports": [
+     {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 1,
+      "trucks": 0
+     },
+     {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 2,
+      "trucks": 0
+     },
+     {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 3,
+      "trucks": 0
+     },
+     {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 4,
+      "trucks": 0
+     }
+    ],
+    "expect": {
+     "bikes": 0,
+     "buses": 0,
+     "cars": 3,
+     "trucks": 0
+    }
+   },
+   {
+    "name": "all zero",
+    "reports": [
+     {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     },
+     {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     },
+     {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    ],
+    "expect": {
+     "bikes": 0,
+     "buses": 0,
+     "cars": 0,
+     "trucks": 0
+    }
+   }
+  ],
+  "invalid": [
+   []
+  ]
+ },
+ "lanes": {
+  "valid": [
+   {
+    "name": "one lane takes the whole clearance time",
+    "counts": {
+     "bikes": 0,
+     "buses": 0,
+     "cars": 4,
+     "trucks": 0
+    },
+    "lanes": 1,
+    "expect": 16
+   },
+   {
+    "name": "two lanes",
+    "counts": {
+     "bikes": 0,
+     "buses": 0,
+     "cars": 4,
+     "trucks": 0
+    },
+    "lanes": 2,
+    "expect": 8
+   },
+   {
+    "name": "three lanes rounds up: 16/3",
+    "counts": {
+     "bikes": 0,
+     "buses": 0,
+     "cars": 4,
+     "trucks": 0
+    },
+    "lanes": 3,
+    "expect": 6
+   },
+   {
+    "name": "one lane clamps at max",
+    "counts": {
+     "bikes": 0,
+     "buses": 0,
+     "cars": 30,
+     "trucks": 0
+    },
+    "lanes": 1,
+    "expect": 60
+   },
+   {
+    "name": "one lane, empty, clamps to min",
+    "counts": {
+     "bikes": 0,
+     "buses": 0,
+     "cars": 0,
+     "trucks": 0
+    },
+    "lanes": 1,
+    "expect": 5
+   }
+  ],
+  "invalid": [
+   0,
+   -1,
+   1.5,
+   true,
+   "2"
+  ]
+ },
+ "bus_lane": [
+  {
+   "name": "empty bus lane gets the minimum",
+   "counts": {
+    "bikes": 0,
+    "buses": 0,
+    "cars": 0,
+    "trucks": 0
+   },
+   "expect": 5
+  },
+  {
+   "name": "one bus is 6 s",
+   "counts": {
+    "bikes": 0,
+    "buses": 1,
+    "cars": 0,
+    "trucks": 0
+   },
+   "expect": 6
+  },
+  {
+   "name": "two buses",
+   "counts": {
+    "bikes": 0,
+    "buses": 2,
+    "cars": 0,
+    "trucks": 0
+   },
+   "expect": 12
+  },
+  {
+   "name": "three buses",
+   "counts": {
+    "bikes": 0,
+    "buses": 3,
+    "cars": 0,
+    "trucks": 0
+   },
+   "expect": 18
+  },
+  {
+   "name": "ten buses clamp at max green",
+   "counts": {
+    "bikes": 0,
+    "buses": 10,
+    "cars": 0,
+    "trucks": 0
+   },
+   "expect": 60
+  },
+  {
+   "name": "a bike is raised to the minimum",
+   "counts": {
+    "bikes": 1,
+    "buses": 0,
+    "cars": 0,
+    "trucks": 0
+   },
+   "expect": 5
+  },
+  {
+   "name": "buses and bikes",
+   "counts": {
+    "bikes": 2,
+    "buses": 1,
+    "cars": 0,
+    "trucks": 0
+   },
+   "expect": 10
+  },
+  {
+   "name": "custom max green",
+   "config": {
+    "max_green": 20
+   },
+   "counts": {
+    "bikes": 0,
+    "buses": 10,
+    "cars": 0,
+    "trucks": 0
+   },
+   "expect": 20
+  }
+ ]
+}

@@ -1,0 +1,29 @@
+Adaptive Traffic Signal
+Copyright (c) 2026 Ariharasudhan Adaikalam, Asvikaa K M R and Jeyakkavi M
+
+Two licences apply to this repository.
+
+MIT (see LICENSE): all code and documents, except the files below. This includes
+the browser code that loads and runs the detector (web/src/detection/), which
+only runs an ONNX file and does not use Ultralytics code.
+
+GNU Affero General Public License, version 3 (see LICENSES/AGPL-3.0.txt):
+
+  web/models/detector.onnx         the vehicle detector. It was trained from the
+                                   pretrained YOLO11n weights of Ultralytics
+                                   (AGPL-3.0), so it is a derived work.
+  tools/train_detector.py          trains the detector with the Ultralytics library.
+  tools/export_detector.py         exports it with the Ultralytics library.
+
+Ultralytics YOLO: https://github.com/ultralytics/ultralytics (AGPL-3.0).
+
+Third party code that the page loads from a CDN and does not copy into this
+repository: Three.js (MIT, https://threejs.org) and ONNX Runtime Web (MIT,
+https://onnxruntime.ai).
+
+Weather data: Open-Meteo.com (CC BY 4.0, https://open-meteo.com/). The page asks
+it for the current weather at the coordinates of a city, never at the visitor's
+own position.
+
+The training pictures of the detector were made from this project's own 3D scene.
+No outside dataset is used.

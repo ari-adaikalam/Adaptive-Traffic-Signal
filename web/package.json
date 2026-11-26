@@ -1,0 +1,10 @@
+{
+  "name": "traffic-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Browser side of the traffic controller: the controller port, the traffic simulator and the page",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  }
+}

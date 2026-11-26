@@ -1,0 +1,256 @@
+{
+ "default_windows": [
+  [
+   0,
+   4,
+   420,
+   540
+  ],
+  [
+   0,
+   4,
+   960,
+   1080
+  ]
+ ],
+ "cases": [
+  {
+   "name": "Monday before the morning window",
+   "second": 25199,
+   "expect": false
+  },
+  {
+   "name": "Monday at the start of the window",
+   "second": 25200,
+   "expect": true
+  },
+  {
+   "name": "Monday one second before the end",
+   "second": 32399,
+   "expect": true
+  },
+  {
+   "name": "Monday at the end of the window",
+   "second": 32400,
+   "expect": false
+  },
+  {
+   "name": "Monday midday",
+   "second": 43200,
+   "expect": false
+  },
+  {
+   "name": "afternoon window start",
+   "second": 57600,
+   "expect": true
+  },
+  {
+   "name": "afternoon window last second",
+   "second": 64799,
+   "expect": true
+  },
+  {
+   "name": "afternoon window end",
+   "second": 64800,
+   "expect": false
+  },
+  {
+   "name": "Friday morning",
+   "second": 374400,
+   "expect": true
+  },
+  {
+   "name": "Saturday morning",
+   "second": 460800,
+   "expect": false
+  },
+  {
+   "name": "Sunday afternoon",
+   "second": 579600,
+   "expect": false
+  },
+  {
+   "name": "the clock wraps into the next week",
+   "second": 633600,
+   "expect": true
+  },
+  {
+   "name": "a clock several weeks on",
+   "second": 6280200,
+   "expect": true
+  },
+  {
+   "name": "midnight Monday",
+   "second": 0,
+   "expect": false
+  }
+ ],
+ "custom": [
+  {
+   "name": "Saturday window",
+   "windows": [
+    [
+     5,
+     5,
+     600,
+     720
+    ]
+   ],
+   "second": 471600,
+   "expect": true
+  },
+  {
+   "name": "Saturday window, Sunday same time",
+   "windows": [
+    [
+     5,
+     5,
+     600,
+     720
+    ]
+   ],
+   "second": 558000,
+   "expect": false
+  },
+  {
+   "name": "all day all week",
+   "windows": [
+    [
+     0,
+     6,
+     0,
+     1440
+    ]
+   ],
+   "second": 345599,
+   "expect": true
+  },
+  {
+   "name": "no windows is never active",
+   "windows": [],
+   "second": 28800,
+   "expect": false
+  },
+  {
+   "name": "overlapping windows form a union",
+   "windows": [
+    [
+     0,
+     0,
+     60,
+     120
+    ],
+    [
+     0,
+     0,
+     90,
+     180
+    ]
+   ],
+   "second": 9000,
+   "expect": true
+  },
+  {
+   "name": "a gap between windows",
+   "windows": [
+    [
+     0,
+     0,
+     60,
+     120
+    ],
+    [
+     0,
+     0,
+     180,
+     240
+    ]
+   ],
+   "second": 9000,
+   "expect": false
+  }
+ ],
+ "invalid_windows": [
+  [
+   1
+  ],
+  [
+   0,
+   4,
+   420
+  ],
+  [
+   0,
+   4,
+   420,
+   540,
+   1
+  ],
+  [
+   -1,
+   4,
+   420,
+   540
+  ],
+  [
+   0,
+   7,
+   420,
+   540
+  ],
+  [
+   4,
+   0,
+   420,
+   540
+  ],
+  [
+   0,
+   4,
+   540,
+   540
+  ],
+  [
+   0,
+   4,
+   600,
+   540
+  ],
+  [
+   0,
+   4,
+   0,
+   1441
+  ],
+  [
+   0,
+   4,
+   -1,
+   540
+  ],
+  [
+   0,
+   4,
+   420.5,
+   540
+  ],
+  [
+   0,
+   4,
+   true,
+   540
+  ],
+  [
+   "0",
+   4,
+   420,
+   540
+  ]
+ ],
+ "invalid_seconds": [
+  -1,
+  1.5,
+  true,
+  "8"
+ ]
+}

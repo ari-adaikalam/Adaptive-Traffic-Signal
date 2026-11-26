@@ -1,0 +1,1336 @@
+[
+ {
+  "name": "emergency in the other pair: yellow first, held green, then a short release",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 3,
+    "pause": {
+     "vehicle": "amb",
+     "approach": 2
+    },
+    "result": true
+   },
+   {
+    "t": 30,
+    "resume": "amb",
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 3,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 7,
+    "emergency_approach": null,
+    "holding": false
+   },
+   {
+    "t": 4,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 6,
+    "emergency_approach": 2,
+    "holding": false
+   },
+   {
+    "t": 5,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 4,
+    "emergency_approach": 2
+   },
+   {
+    "t": 8,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 1
+   },
+   {
+    "t": 9,
+    "phase": "T13",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 2
+   },
+   {
+    "t": 10,
+    "phase": "T13",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 1
+   },
+   {
+    "t": 11,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10,
+    "holding": true,
+    "emergency_approach": 2
+   },
+   {
+    "t": 30,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10,
+    "holding": true
+   },
+   {
+    "t": 31,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 5,
+    "holding": false,
+    "emergency_approach": null
+   },
+   {
+    "t": 35,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 1
+   },
+   {
+    "t": 36,
+    "phase": "T24",
+    "stage": "yellow",
+    "heads": [
+     "red",
+     "yellow",
+     "red",
+     "yellow"
+    ],
+    "remaining": 4
+   },
+   {
+    "t": 40,
+    "phase": "T24",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 2
+   },
+   {
+    "t": 42,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 10
+   }
+  ]
+ },
+ {
+  "name": "emergency in the pair that is already green holds it, and the release is shortened to the minimum",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 1,
+    "pause": {
+     "vehicle": "a",
+     "approach": 1
+    },
+    "result": true
+   },
+   {
+    "t": 20,
+    "resume": "a",
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 1,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 9,
+    "holding": false
+   },
+   {
+    "t": 2,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 9,
+    "holding": true,
+    "emergency_approach": 1
+   },
+   {
+    "t": 20,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 9,
+    "holding": true
+   },
+   {
+    "t": 21,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 5,
+    "holding": false,
+    "emergency_approach": null
+   },
+   {
+    "t": 25,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 1
+   },
+   {
+    "t": 26,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 4
+   },
+   {
+    "t": 30,
+    "phase": "T13",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 2
+   },
+   {
+    "t": 32,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10
+   }
+  ]
+ },
+ {
+  "name": "preemption waits for the minimum green",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 32,
+    "pause": {
+     "vehicle": "a",
+     "approach": 2
+    },
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 36,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 6,
+    "emergency_approach": 2
+   },
+   {
+    "t": 37,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 4
+   },
+   {
+    "t": 43,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10,
+    "holding": true
+   }
+  ]
+ },
+ {
+  "name": "an emergency during a yellow waits for the yellow and all-red, then serves its own pair",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 11,
+    "pause": {
+     "vehicle": "a",
+     "approach": 1
+    },
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 13,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 1,
+    "emergency_approach": 1
+   },
+   {
+    "t": 14,
+    "phase": "T13",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 2
+   },
+   {
+    "t": 16,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 10,
+    "holding": true,
+    "emergency_approach": 1,
+    "signals": {
+     "T1": "green",
+     "T3": "green",
+     "T2": "red"
+    }
+   }
+  ]
+ },
+ {
+  "name": "an emergency withdrawn during the preemption yellow returns to the normal order",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 3,
+    "pause": {
+     "vehicle": "a",
+     "approach": 2
+    },
+    "result": true
+   },
+   {
+    "t": 6,
+    "resume": "a",
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 5,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 4,
+    "emergency_approach": 2
+   },
+   {
+    "t": 6,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 3,
+    "emergency_approach": 2
+   },
+   {
+    "t": 7,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 2,
+    "emergency_approach": null
+   },
+   {
+    "t": 11,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10,
+    "holding": false,
+    "emergency_approach": null
+   }
+  ]
+ },
+ {
+  "name": "oldest request is served first and a later one can resume out of order",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 3,
+    "pause": {
+     "vehicle": "a",
+     "approach": 2
+    },
+    "result": true
+   },
+   {
+    "t": 4,
+    "pause": {
+     "vehicle": "b",
+     "approach": 1
+    },
+    "result": true
+   },
+   {
+    "t": 20,
+    "resume": "b",
+    "result": true
+   },
+   {
+    "t": 30,
+    "resume": "a",
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 11,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10,
+    "holding": true,
+    "emergency_approach": 2
+   },
+   {
+    "t": 21,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10,
+    "holding": true,
+    "emergency_approach": 2
+   },
+   {
+    "t": 31,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 5,
+    "holding": false,
+    "emergency_approach": null
+   },
+   {
+    "t": 36,
+    "phase": "T24",
+    "stage": "yellow",
+    "heads": [
+     "red",
+     "yellow",
+     "red",
+     "yellow"
+    ],
+    "remaining": 4
+   }
+  ]
+ },
+ {
+  "name": "when the oldest resumes the next request is served after a full yellow and all-red",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 3,
+    "pause": {
+     "vehicle": "a",
+     "approach": 2
+    },
+    "result": true
+   },
+   {
+    "t": 4,
+    "pause": {
+     "vehicle": "b",
+     "approach": 1
+    },
+    "result": true
+   },
+   {
+    "t": 20,
+    "resume": "a",
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 20,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10,
+    "holding": true,
+    "emergency_approach": 2
+   },
+   {
+    "t": 21,
+    "phase": "T24",
+    "stage": "yellow",
+    "heads": [
+     "red",
+     "yellow",
+     "red",
+     "yellow"
+    ],
+    "remaining": 4,
+    "emergency_approach": 1,
+    "holding": false
+   },
+   {
+    "t": 24,
+    "phase": "T24",
+    "stage": "yellow",
+    "heads": [
+     "red",
+     "yellow",
+     "red",
+     "yellow"
+    ],
+    "remaining": 1
+   },
+   {
+    "t": 25,
+    "phase": "T24",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 2
+   },
+   {
+    "t": 27,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 10,
+    "holding": true,
+    "emergency_approach": 1
+   }
+  ]
+ },
+ {
+  "name": "a lost resume: the request times out and the hold ends",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 3,
+    "pause": {
+     "vehicle": "a",
+     "approach": 2
+    },
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 11,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10,
+    "holding": true
+   },
+   {
+    "t": 62,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10,
+    "holding": true,
+    "emergency_approach": 2
+   },
+   {
+    "t": 63,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 5,
+    "holding": false,
+    "emergency_approach": null
+   },
+   {
+    "t": 67,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 1
+   },
+   {
+    "t": 68,
+    "phase": "T24",
+    "stage": "yellow",
+    "heads": [
+     "red",
+     "yellow",
+     "red",
+     "yellow"
+    ],
+    "remaining": 4
+   }
+  ]
+ },
+ {
+  "name": "an unknown vehicle cannot be resumed, and a repeat pause is not new",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 1,
+    "resume": "ghost",
+    "result": false
+   },
+   {
+    "t": 3,
+    "pause": {
+     "vehicle": "a",
+     "approach": 2
+    },
+    "result": true
+   },
+   {
+    "t": 4,
+    "pause": {
+     "vehicle": "a",
+     "approach": 2
+    },
+    "result": false
+   }
+  ],
+  "expect": [
+   {
+    "t": 11,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10,
+    "holding": true,
+    "emergency_approach": 2
+   }
+  ]
+ },
+ {
+  "name": "a repeat pause with a new approach moves the request",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 3,
+    "pause": {
+     "vehicle": "a",
+     "approach": 2
+    },
+    "result": true
+   },
+   {
+    "t": 5,
+    "pause": {
+     "vehicle": "a",
+     "approach": 1
+    },
+    "result": false
+   }
+  ],
+  "expect": [
+   {
+    "t": 5,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 4,
+    "emergency_approach": 2
+   },
+   {
+    "t": 6,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 3,
+    "emergency_approach": 1
+   }
+  ]
+ },
+ {
+  "name": "a walk is cut short for an emergency but the flashing clearance still completes",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 0,
+    "request": 2,
+    "result": true
+   },
+   {
+    "t": 33,
+    "pause": {
+     "vehicle": "a",
+     "approach": 2
+    },
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 36,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 9,
+    "signals": {
+     "C2": "walk"
+    }
+   },
+   {
+    "t": 37,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 7,
+    "emergency_approach": 2,
+    "signals": {
+     "C2": "clear"
+    }
+   },
+   {
+    "t": 43,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 1,
+    "signals": {
+     "C2": "clear"
+    }
+   },
+   {
+    "t": 44,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 4,
+    "signals": {
+     "C2": "clear"
+    }
+   },
+   {
+    "t": 47,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 1,
+    "signals": {
+     "C2": "clear"
+    }
+   },
+   {
+    "t": 48,
+    "phase": "T13",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 2,
+    "signals": {
+     "C2": "stop"
+    }
+   },
+   {
+    "t": 50,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10,
+    "holding": true,
+    "signals": {
+     "C2": "stop"
+    }
+   }
+  ]
+ },
+ {
+  "name": "a hold keeps a running pedestrian sequence exactly as scheduled",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 0,
+    "request": 2,
+    "result": true
+   },
+   {
+    "t": 34,
+    "pause": {
+     "vehicle": "a",
+     "approach": 1
+    },
+    "result": true
+   },
+   {
+    "t": 50,
+    "resume": "a",
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 35,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 11,
+    "holding": true,
+    "signals": {
+     "C2": "walk"
+    }
+   },
+   {
+    "t": 50,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 11,
+    "holding": true,
+    "signals": {
+     "C2": "walk"
+    }
+   },
+   {
+    "t": 51,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 11,
+    "holding": false,
+    "signals": {
+     "C2": "walk"
+    }
+   },
+   {
+    "t": 55,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 7,
+    "signals": {
+     "C2": "clear"
+    }
+   },
+   {
+    "t": 61,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 1,
+    "signals": {
+     "C2": "clear"
+    }
+   },
+   {
+    "t": 62,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 4,
+    "signals": {
+     "C2": "clear"
+    }
+   },
+   {
+    "t": 65,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 1,
+    "signals": {
+     "C2": "clear"
+    }
+   },
+   {
+    "t": 66,
+    "phase": "T13",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 2,
+    "signals": {
+     "C2": "stop"
+    }
+   },
+   {
+    "t": 68,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10,
+    "signals": {
+     "C2": "stop"
+    }
+   }
+  ]
+ },
+ {
+  "name": "no walk starts for an emergency green and the press waits",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 0,
+    "request": 1,
+    "result": true
+   },
+   {
+    "t": 3,
+    "pause": {
+     "vehicle": "a",
+     "approach": 2
+    },
+    "result": true
+   },
+   {
+    "t": 30,
+    "resume": "a",
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 11,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10,
+    "holding": true,
+    "pedestrian_requests": [
+     1
+    ],
+    "signals": {
+     "C1": "stop"
+    }
+   },
+   {
+    "t": 31,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 5,
+    "holding": false,
+    "signals": {
+     "C1": "stop"
+    }
+   }
+  ]
+ },
+ {
+  "name": "emergency during an arrow phase",
+  "config": {
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 17,
+    "pause": {
+     "vehicle": "a",
+     "approach": 1
+    },
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 20,
+    "phase": "R24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 6
+   },
+   {
+    "t": 21,
+    "phase": "R24",
+    "stage": "yellow",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 4,
+    "emergency_approach": 1
+   },
+   {
+    "t": 25,
+    "phase": "R24",
+    "stage": "all_red",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 2
+   },
+   {
+    "t": 27,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 10,
+    "holding": true,
+    "signals": {
+     "T1": "green",
+     "T3": "green",
+     "R2": "red"
+    }
+   }
+  ]
+ }
+]

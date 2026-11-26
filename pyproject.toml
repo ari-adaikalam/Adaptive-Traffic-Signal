@@ -1,0 +1,13 @@
+[project]
+name = "traffic-controller"
+version = "0.1.0"
+description = "Adaptive 4-way traffic signal logic with emergency vehicle priority"
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.setuptools]
+packages = ["traffic_controller"]

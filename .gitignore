@@ -1,0 +1,17 @@
+.env
+.DS_Store
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+.venv/
+.ipynb_checkpoints/
+node_modules/
+
+# scratch screenshots
+/review/
+
+# the training frames and the trained weights (made by web/tools/collect_store.py and the training step), not part of the repository
+/datasets/
+/runs/
+*.pt

@@ -1,0 +1,345 @@
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:#dfe9f2;color:var(--text);font:14px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}
+canvas{display:block;width:100%;height:100%}
+#status{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;gap:clamp(20px,4vh,36px);align-items:center;justify-content:center;pointer-events:none;font:600 clamp(20px,3.2vw,28px)/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;color:#1b2a3d;background:linear-gradient(#bcd3ea,#8fa8c2)}
+#status p{margin:0}
+/* A signal head that stays red while the scene is built, and turns green when the scene is ready, just before the page goes. Nothing moves while the main thread is busy, so nothing has to run on its own. */
+#status i{display:flex;flex-direction:column;gap:clamp(10px,2vh,16px);padding:clamp(14px,2.6vh,22px);border-radius:clamp(20px,3.6vh,32px);background:#1b212c;box-shadow:0 14px 40px rgba(21,25,34,.3)}
+#status b{position:relative;width:clamp(36px,8vh,64px);height:clamp(36px,8vh,64px);border-radius:50%;opacity:.2;transition:opacity .12s}
+#status b::after{content:'';position:absolute;inset:-35%;border-radius:50%;background:radial-gradient(circle,transparent 40%,var(--glow) 46%,transparent 70%)}
+#status b:nth-child(1){background:#e5484d;--glow:rgba(229,72,77,.55);opacity:1}
+#status b:nth-child(2){background:#f5b83d;--glow:rgba(245,184,61,.55)}
+#status b:nth-child(3){background:#30a46c;--glow:rgba(48,164,108,.55)}
+#status.go b:nth-child(1){opacity:.2}
+#status.go b:nth-child(3){opacity:1}
+/* The page around the scene: a bar at the top, a dock at the bottom, and one panel. The colours (--surface, --raised, --ink, --muted, --line, --accent, --fixed, --win) are set by the shell from the
+   light of the scene, so the page moves from day to night with the sky. Wide screens get the panel at the side, phones get it as a sheet above the dock. */
+:root {
+  --surface: rgb(255, 255, 255); --raised: rgb(241, 243, 248); --ink: rgb(21, 25, 34); --muted: rgb(91, 100, 114); --line: rgba(21, 25, 34, .1);
+  --accent: rgb(50, 87, 232); --fixed: rgb(138, 146, 160); --win: rgb(23, 128, 63); --lose: rgb(179, 38, 30);
+  --panel-w: 420px; --gap: 12px; --dock-h: 66px;
+  --shadow: 0 10px 34px rgba(8, 12, 24, .22), 0 1px 3px rgba(8, 12, 24, .12);
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+[hidden] { display: none !important; }
+.dock, .panel, .markers { font: 14px/1.45 var(--font); color: var(--ink); }
+.dock button, .panel button, .marker { font: inherit; color: inherit; cursor: pointer; }
+.dock button:focus-visible, .panel button:focus-visible, .panel select:focus-visible, .panel summary:focus-visible, .marker:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.panel:focus { outline: none; }
+
+/* ---- the status overlay, top left ---- */
+.status { position: fixed; top: var(--gap); left: var(--gap); width: min(364px, calc(100% - 2 * var(--gap))); background: var(--surface); border-radius: 16px; box-shadow: var(--shadow); padding: 8px 12px 11px; z-index: 4; font: 14px/1.4 var(--font); color: var(--ink); border-left: 4px solid transparent; transition: border-color .2s; }
+.status[data-state="fault"] { border-left-color: #ff453a; }
+.status[data-state="emergency"] { border-left-color: #ff9f0a; }
+.status button { font: inherit; cursor: pointer; border: 0; background: transparent; color: inherit; }
+.status button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.status > header { display: flex; align-items: center; gap: 6px; white-space: nowrap; } /* one line */
+.status .when { font-size: 14.5px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.status .chip { font-size: 11px; padding: 2px 8px; border-radius: 99px; background: var(--raised); color: var(--muted); white-space: nowrap; }
+.status .chip:hover { color: var(--ink); background: color-mix(in srgb, var(--raised) 75%, var(--ink) 10%); }
+.status .fold { margin-left: auto; font-size: 12px; color: var(--muted); padding: 2px 6px; border-radius: 8px; }
+.status .fold:hover { color: var(--ink); background: var(--raised); }
+.status .headline { margin: 6px 0 0; font-weight: 600; font-size: 13px; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } /* one line, always, so the box keeps its height */
+.status-body[hidden] { display: none; }
+.status .now { display: grid; grid-template-columns: 96px minmax(0, 216px); column-gap: 12px; align-items: center; justify-content: center; margin-top: 8px; } /* two fixed columns, so the plan and the words never move when the words change */
+.status .mini { width: 96px; height: 96px; flex: none; color: var(--ink); }
+.status .mini .road { fill: color-mix(in srgb, var(--muted) 30%, var(--raised)); }
+.status .mini .lamp { stroke: var(--surface); stroke-width: 1.5; }
+.status .mini .letter { fill: var(--muted); font: 600 8px var(--font); }
+.status .mini .count { fill: var(--ink); font: 650 11px var(--font); font-variant-numeric: tabular-nums; }
+.status .words { display: flex; flex-direction: column; justify-content: center; gap: 2px; min-width: 0; text-align: left; font-size: 12.5px; color: var(--muted); line-height: 1.35; }
+.status .words span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 1.35em; }
+
+/* ---- the choice between a few things ---- */
+.segmented { display: flex; gap: 2px; padding: 3px; border-radius: 12px; background: var(--raised); }
+.segmented button { flex: 1; border: 0; background: transparent; padding: 8px 12px; border-radius: 9px; font-size: 13.5px; color: var(--muted); white-space: nowrap; transition: background-color .15s, color .15s; }
+.segmented button:hover { color: var(--ink); }
+.segmented button[aria-checked="true"] { background: color-mix(in srgb, var(--accent) 15%, var(--surface)); color: var(--ink); font-weight: 600; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent) 55%, transparent); }
+.segmented.wrap { flex-wrap: wrap; }
+.segmented.wrap button { flex: 1 0 28%; }
+/* ---- the dock ---- */
+.dock { position: fixed; bottom: var(--gap); left: 50%; transform: translateX(-50%); display: flex; gap: 2px; padding: 5px; background: var(--surface); border-radius: 20px; box-shadow: var(--shadow); z-index: 5; max-width: calc(100% - 2 * var(--gap)); transition: left .24s ease; }
+.dock-item { display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 76px; padding: 8px 10px 6px; border: 0; border-radius: 15px; background: transparent; color: var(--muted); font-size: 11.5px; line-height: 1.1; transition: background-color .15s, color .15s; }
+.dock-item:hover { color: var(--ink); background: var(--raised); }
+.dock-item[aria-pressed="true"] { color: var(--accent); background: var(--raised); }
+.dock-item .glyph { display: grid; }
+.dock.cue { animation: cue 2.4s ease-in-out 3; }
+@keyframes cue { 50% { box-shadow: var(--shadow), 0 0 0 7px color-mix(in srgb, var(--accent) 26%, transparent); } }
+
+/* ---- the panel ---- */
+/* One size for every panel and every page, so nothing moves when the visitor changes panel or tab. The content of a page stretches to fill it. */
+.panel { position: fixed; left: 0; right: 0; margin: 0 auto; bottom: calc(var(--dock-h) + 2 * var(--gap)); width: min(var(--panel-w), calc(100% - 2 * var(--gap))); height: min(calc(100dvh - var(--dock-h) - 3 * var(--gap)), 620px); background: var(--surface); border-radius: 22px; box-shadow: var(--shadow); display: flex; flex-direction: column; overflow: hidden; z-index: 6; transition: opacity .2s ease, transform .22s cubic-bezier(.2, .7, .2, 1); }
+.panel:not(.shown) { opacity: 0; transform: translateY(24px); pointer-events: none; }
+.panel > header { display: flex; align-items: center; justify-content: space-between; padding: 14px 12px 8px 22px; }
+.panel h2 { margin: 0; font-size: 18px; font-weight: 650; letter-spacing: -.01em; }
+.icon-button { display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 12px; background: transparent; color: var(--muted); }
+.icon-button:hover { background: var(--raised); color: var(--ink); }
+.panel-body { flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; padding: 4px 22px 22px; }
+.panel-body > * { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.stack { display: flex; flex-direction: column; gap: 12px; }
+.stack > * { flex: 1 1 auto; }
+/* A page whose content is shorter than the panel (the Controls tabs) does not leave an empty strip at the bottom: its sections keep their own height, and the spare height goes between them. */
+.stack.spread { justify-content: space-between; }
+.stack.spread > * { flex: 0 0 auto; }
+.stack.spread > .block { justify-content: space-between; }
+.tabs { display: flex; gap: 4px; padding: 3px; margin-bottom: 14px; background: var(--raised); border-radius: 12px; }
+.tabs button { flex: 1; border: 0; border-radius: 9px; padding: 7px 4px; background: transparent; color: var(--muted); font-size: 13px; font-weight: 550; }
+.tabs button[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(8, 12, 24, .14); }
+.tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.page { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.page[hidden] { display: none; }
+.page > * { flex: 1; display: flex; flex-direction: column; }
+.block h3 { margin: 0 0 6px; padding: 4px 10px; border-radius: 8px; background: var(--raised); color: var(--ink); font-size: 12.5px; font-weight: 600; line-height: 16px; } /* every section heading is a band, so a section is its own block */
+.block > * + * { margin-top: 8px; }
+.stack > .block { display: flex; flex-direction: column; }
+.stack > .block > .segmented, .stack > .field > .segmented, .field-body > .actions { flex: 1 1 auto; }
+.stack > .field > .segmented { align-content: stretch; }
+.field-body { flex: 1 1 auto; }
+.stack > .block > .field { flex: 1 1 auto; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field-label { font-size: 12.5px; color: var(--muted); }
+.field.inline { flex-direction: row; align-items: center; gap: 12px; }
+.field.inline .field-label { flex: none; width: 56px; }
+.field.inline > .segmented { flex: 1; }
+.lead { margin: 0; color: var(--muted); font-size: 13.5px; line-height: 1.55; }
+.note { margin: 0; color: var(--muted); font-size: 12.5px; line-height: 1.5; }
+.row { display: flex; gap: 8px; align-items: center; }
+.panel select { flex: 1; min-width: 0; font: inherit; color: var(--ink); background: var(--raised); border: 0; border-radius: 12px; padding: 10px 12px; }
+.panel button.primary { border: 0; border-radius: 12px; padding: 10px 20px; background: var(--accent); color: #fff; font-weight: 600; }
+:root[data-night="1"] .panel button.primary { color: #0b1020; }
+.panel button.quiet { border: 1px solid var(--line); background: transparent; border-radius: 10px; padding: 7px 12px; font-size: 13px; color: var(--ink); white-space: nowrap; }
+.panel button.quiet:hover { background: var(--raised); }
+.actions { display: flex; flex-direction: column; gap: 8px; }
+.field-body { display: flex; flex-direction: column; gap: 6px; }
+.note.sent { min-height: 1.5em; margin: 0; color: var(--accent); }
+.note.sent.idle { color: var(--muted); }
+.actions.roads { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr; gap: 8px; }
+.actions.roads .action { text-align: center; padding: 11px 4px; }
+.action { width: 100%; text-align: left; border: 0; border-radius: 12px; padding: 13px 14px; background: var(--raised); font-size: 14.5px; font-weight: 500; }
+.action:hover { background: color-mix(in srgb, var(--raised) 80%, var(--ink) 8%); }
+.action[aria-pressed="true"] { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); box-shadow: inset 0 0 0 1.5px var(--accent); }
+
+/* ---- comparison ---- */
+.tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: none; }
+.tile { background: var(--raised); border-radius: 14px; padding: 10px 14px 12px; display: flex; flex-direction: column; justify-content: space-between; gap: 4px; }
+.tile span { font-size: 12.5px; color: var(--muted); }
+.tile .sub { font-size: 12.5px; color: var(--ink); font-variant-numeric: tabular-nums; margin-top: 4px; }
+.tile b { font-size: 34px; line-height: 1.05; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.track { height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--muted) 20%, transparent); overflow: hidden; }
+.track i { display: block; height: 100%; width: 0; border-radius: 3px; transition: width .3s ease; }
+.tile.fixed .track i { background: var(--fixed); }
+.tile.adaptive .track i { background: var(--accent); }
+.progress { height: 4px; border-radius: 2px; background: var(--raised); overflow: hidden; }
+.progress i { display: block; height: 100%; width: 0; background: var(--ink); opacity: .55; transition: width .3s ease; }
+.block > .verdict { margin-top: 12px; }
+.verdict { margin: 0; font-weight: 600; font-size: 13px; line-height: 1.4; height: 1.4em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } /* one line, always with words in it, so the result arriving moves nothing */
+.badge { justify-self: end; font-size: 11.5px; font-weight: 600; padding: 1px 8px; border-radius: 99px; white-space: nowrap; }
+.badge.win { color: var(--win); background: color-mix(in srgb, var(--win) 14%, transparent); }
+.badge.tie { color: var(--muted); background: var(--raised); }
+
+/* ---- cameras ---- */
+.planbox { background: var(--raised); border-radius: 14px; padding: 8px; flex: none; }
+.cams { --panel-h: min(calc(100dvh - var(--dock-h) - 3 * var(--gap)), 620px); --plan: min(clamp(108px, calc((var(--panel-h) - 156px) * .45), 196px), 46vw); justify-content: space-between; gap: 10px; }
+.cams > * { flex: none; }
+.camlow { display: flex; gap: 12px; align-items: center; }
+.plan { position: relative; width: var(--plan, 164px); aspect-ratio: 1; }
+.plan svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.plan .ground { fill: color-mix(in srgb, var(--muted) 10%, var(--raised)); }
+.plan .road { fill: color-mix(in srgb, var(--muted) 34%, var(--raised)); }
+.plan .zone { fill: var(--accent); opacity: .14; transition: opacity .2s; }
+.plan .zone.active { opacity: .42; }
+.plan .stop { fill: var(--surface); }
+.plan .lamp { stroke: var(--surface); stroke-width: .6; }
+.plan .letter { fill: var(--muted); font: 600 4.6px var(--font); }
+.dot { position: absolute; width: 22px; height: 22px; transform: translate(-50%, -50%); border-radius: 50%; border: 2px solid var(--accent); background: var(--surface); color: var(--ink); font-size: 12px; font-weight: 650; font-variant-numeric: tabular-nums; padding: 0; display: grid; place-items: center; box-shadow: 0 2px 6px rgba(8, 12, 24, .2); transition: background-color .15s, color .15s; }
+.dot::before { content: ''; position: absolute; inset: -9px; border-radius: 50%; }
+.dot[aria-pressed="true"] { background: var(--accent); color: #fff; }
+:root[data-night="1"] .dot[aria-pressed="true"] { color: #0b1020; }
+.camhead { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 3px 4px 3px 10px; border-radius: 8px; background: var(--raised); }
+.camhead > div { display: flex; flex-direction: column; min-width: 0; }
+.camhead b { font-size: 13px; }
+.camhead small { color: var(--muted); font-size: 12.5px; line-height: 1.35; }
+.picturebox { border-radius: 14px; overflow: hidden; background: #0c0f16; width: 100%; height: calc(var(--panel-h) - 156px - var(--plan) - 16px); min-height: 90px; } /* the picture takes the height the plan below it leaves, so the panel has no empty gap */
+.picture { display: block; width: 100%; height: 100%; }
+.numbers { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 0; }
+.total { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } /* one line, so a longer count does not push the lanes below it */
+.total b { font-size: 26px; font-weight: 600; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.lanes { display: flex; flex-direction: column; gap: 4px; }
+.lanes div { background: var(--raised); border-radius: 10px; padding: 4px 10px; display: flex; flex-direction: row-reverse; justify-content: space-between; align-items: baseline; }
+.lanes b { font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.lanes small { color: var(--muted); font-size: 12px; }
+.kinds { margin: 0; color: var(--muted); font-size: 13px; }
+.about { font-size: 12.5px; color: var(--muted); }
+.about summary { cursor: pointer; color: var(--ink); font-weight: 600; font-size: 13px; }
+.about p { margin: 8px 0 0; line-height: 1.5; }
+
+/* ---- the tag on an emergency vehicle ---- */
+.alert { position: absolute; left: 0; top: 0; padding: 5px 11px; border-radius: 99px; background: #ff9f0a; color: #1b1d21; font: 600 12.5px/1.2 var(--font); white-space: nowrap; box-shadow: 0 4px 14px rgba(0,0,0,.28); pointer-events: none; }
+.alert[hidden] { display: none; }
+.alert::after { content: ''; position: absolute; left: 50%; top: 100%; width: 8px; height: 8px; background: #ff9f0a; transform: translate(-50%, -4px) rotate(45deg); }
+.alert .arrow { display: none; font-size: 9px; margin-right: 6px; }
+.alert.away .arrow { display: inline-block; }
+.alert.away::after { display: none; }
+.alert.occluded { outline: 2px dashed rgba(27, 29, 33, .55); outline-offset: -3px; opacity: .92; } /* a building is between the viewpoint and the vehicle */
+
+/* ---- markers over the cameras in the scene ---- */
+.markers { position: fixed; inset: 0; pointer-events: none; z-index: 3; overflow: hidden; }
+.marker { position: absolute; left: 0; top: 0; display: grid; place-items: center; border-radius: 50%; background: var(--surface); color: var(--ink); border: 1px solid var(--line); pointer-events: auto; padding: 0; box-shadow: 0 2px 8px rgba(8, 12, 24, .28); will-change: transform; }
+.marker::before { content: ''; position: absolute; inset: -6px; border-radius: 50%; }
+.marker::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--accent); opacity: 0; pointer-events: none; }
+.markers:not(.calm) .marker::after { animation: ping 1.8s ease-out infinite; }
+@keyframes ping { 0% { opacity: .8; transform: scale(.8); } 100% { opacity: 0; transform: scale(1.7); } }
+.marker.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.marker .tip { position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 12px; padding: 4px 9px; border-radius: 9px; background: var(--surface); color: var(--ink); box-shadow: var(--shadow); opacity: 0; pointer-events: none; transition: opacity .12s; }
+.marker:hover .tip, .marker:focus-visible .tip { opacity: 1; }
+
+/* ---- narrower screens ---- */
+@media (max-width: 899px) {
+  :root { --gap: 8px; --dock-h: 62px; }
+      .dock { width: calc(100% - 2 * var(--gap)); max-width: 640px; justify-content: space-between; }
+  .dock-item { flex: 1; min-width: 0; padding: 8px 0 6px; letter-spacing: -.01em; }
+  .dock .dock-item { font-size: 11px; } /* the plain .dock-item rule loses to .dock button, which sets font: inherit */
+  .panel > header { padding: 10px 8px 4px 18px; }
+  .panel-body { padding: 2px 18px 22px; }
+  .tiles { gap: 8px; }
+  .tile b { font-size: 30px; }
+}
+@media (max-width: 400px) { .dock .dock-item { font-size: 10px; } } /* five labels share the dock, and Comparison is the longest */
+/* a short landscape screen, such as a phone on its side: there is no height to spare, so the panel takes the whole screen (over the dock, which the close button brings back) and the content runs in two columns */
+@media (max-height: 520px) and (min-width: 560px) {
+  :root { --dock-h: 46px; }
+  .dock-item span:not(.glyph) { display: none; }
+  .dock-item { min-width: 56px; padding: 9px 8px; }
+  .panel { left: var(--gap); right: var(--gap); top: var(--gap); bottom: var(--gap); width: auto; height: auto; margin: 0; border-radius: 18px; z-index: 7; }
+  .panel > header { padding: 6px 8px 0 18px; }
+  .icon-button { width: 36px; height: 36px; min-height: 0; }
+  .panel-body { padding: 0 18px 14px; }
+  .tabs { margin-bottom: 10px; }
+  .page .stack, .page > .block { display: block; column-count: 2; column-gap: 28px; }
+  .page .stack.spread { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 28px; column-count: auto; height: 100%; align-content: space-between; }
+  .page .stack.spread.one-row { grid-template-rows: 1fr; }
+  .page .stack.spread > * { margin: 0; }
+  .page .stack.spread > .block { height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+  .page .stack > *, .page > .block > * { break-inside: avoid; margin: 0 0 12px; }
+  .page .block h3 { break-after: avoid; }
+  .cams { display: grid; grid-template-columns: minmax(0, 360px) 1fr; gap: 10px 18px; align-items: start; align-content: space-between; height: 100%; }
+  .cams .camhead { grid-column: 1; }
+  .cams .picturebox { grid-column: 1; height: auto; aspect-ratio: 16 / 9; }
+  .cams .camlow { grid-column: 2; grid-row: 1 / span 2; }
+  .panel .places { grid-template-columns: repeat(4, 1fr); } /* with .panel so it beats the plain .places rule further down, which would otherwise keep two columns */
+}
+@media (pointer: coarse) { .segmented button, .icon-button, .panel select, .panel button.primary, .panel button.quiet, .action, .place { min-height: 44px; } }
+@media (prefers-reduced-motion: reduce) { .panel, .dock, .track i, .progress i, .segmented button, .dot, .plan .zone { transition-duration: .01s; } .dock.cue, .markers:not(.calm) .marker::after { animation: none; } }
+
+
+/* ---- places, and the way back to the start view ---- */
+.places { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px; }
+.place { border: 0; border-radius: 14px; background: var(--raised); font-size: 15px; font-weight: 500; }
+.place:hover { background: color-mix(in srgb, var(--raised) 80%, var(--ink) 8%); }
+.home { position: fixed; left: 50%; bottom: calc(var(--dock-h) + 2 * var(--gap)); transform: translateX(-50%); display: flex; align-items: center; gap: 7px; height: 38px; padding: 0 16px 0 13px; border: 0; border-radius: 19px; background: var(--surface); color: var(--ink); font: 600 14px/1 var(--font); box-shadow: var(--shadow); cursor: pointer; z-index: 5; animation: home-in .22s cubic-bezier(.2, .7, .2, 1); }
+.home[hidden], body.has-panel .home { display: none; }
+.home:hover { color: var(--accent); }
+.home:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@keyframes home-in { from { opacity: 0; transform: translate(-50%, 8px); } }
+@media (prefers-reduced-motion: reduce) { .home { animation: none; } }
+
+
+.segmented button:disabled { opacity: .4; cursor: default; }
+
+/* ---- the Live and Results pages of the Comparison panel ---- */
+/* No scrolling: the height of a table row follows the height of the panel (--rh), so the same twelve rows fit a tall window and a short one. The panel's height is the .panel rule; 315px is what the headings,
+   the column names, the tabs and the gaps take. A very short window is the only place a row can be cut. */
+.stack.live, .stack.results { --panel-h: min(calc(100dvh - var(--dock-h) - 3 * var(--gap)), 620px); --chrome: 315px; --rh: clamp(16px, calc((var(--panel-h) - var(--chrome)) / 12), 27px); gap: 10px; justify-content: flex-start; }
+.stack.live > *, .stack.results > * { flex: 0 0 auto; }
+/* The panel is one fixed size. On the Live page the detector table takes what the top section leaves, and its rows share it evenly, so there is no empty gap, and nothing moves when a line of text changes or the numbers arrive. */
+.stack.live > .block:last-child { flex: 1 1 auto; min-height: 0; }
+.stack.live .count-table { flex: 1 1 auto; min-height: 0; }
+.stack.live .count-row:not(.head) { flex: 1 1 0; align-items: center; padding-top: 0; padding-bottom: 0; }
+.stack.live .block, .stack.results .block { display: flex; flex-direction: column; }
+.stack.live .block h3, .stack.results .block h3 { margin: 0 0 3px; }
+.stack.live .block > * + * { margin-top: 6px; }
+.rtable { display: flex; flex-direction: column; }
+.rrow { display: grid; grid-template-columns: minmax(0, 1fr) 40px 54px 80px; gap: 4px; align-items: center; height: var(--rh); padding: 0; border-top: 1px solid var(--line); font-size: 13px; font-variant-numeric: tabular-nums; line-height: 1; }
+.rrow.two { grid-template-columns: minmax(0, 1fr) 84px 84px; }
+.rrow.head { height: auto; border-top: 0; padding: 2px 0 3px; color: var(--muted); font-size: 11.5px; }
+.rrow > :nth-child(n+2) { text-align: right; justify-self: end; }
+.count-table { display: flex; flex-direction: column; }
+.count-row { display: grid; grid-template-columns: 1fr 76px 76px; align-items: baseline; padding: 5px 0; border-top: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.count-row.head { border-top: 0; padding: 2px 0 3px; color: var(--muted); font-size: 12px; }
+.count-row b { font-size: 15px; font-weight: 600; }
+.count-row > :nth-child(n+2) { text-align: right; }
+.stack.live .note { font-size: 12px; line-height: 1.35; margin-top: 8px; }
+.badge.worse { color: var(--lose); background: color-mix(in srgb, var(--lose) 12%, transparent); }
+
+/* A short window (a laptop with its browser bars, a phone with its address bar): the chrome around the pages and the Live page tighten */
+@media (max-height: 760px) {
+  .stack.live, .stack.results { --chrome: 300px; } /* the tabs, the header and the gaps are tighter here */
+  .count-row { padding: 3px 0; }
+  .tabs { margin-bottom: 10px; }
+  .panel > header { padding-top: 8px; padding-bottom: 2px; }
+  .stack.live .tile { padding: 8px 12px 9px; }
+  .stack.live .tile b { font-size: 26px; }
+  .stack.live .tile .sub { margin-top: 0; }
+  .stack.live .note { margin-top: 4px; }
+  .stack.live select { padding-top: 7px; padding-bottom: 7px; }
+}
+@media (max-height: 640px) {
+  .stack.live .tile .sub { display: none; }
+}
+@media (max-height: 600px) { /* very short: slimmer bands, and the emergency table borrows the column names of the delay table above it */
+  .stack.live .block h3, .stack.results .block h3 { padding: 2px 10px; margin-bottom: 2px; }
+  .stack.results .rrow.head.again { display: none; }
+  .stack.live, .stack.results { gap: 8px; }
+}
+
+/* A short portrait phone (a screen under 700px high once the browser bars are in): the panels' own spacing tightens, and Go to goes to three columns, so each still fits without scrolling */
+@media (max-height: 700px) and (max-width: 899px) {
+  .panel .places { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .place { font-size: 13px; line-height: 1.15; }
+  .stack { gap: 8px; }
+  .block > * + * { margin-top: 6px; }
+  .field { gap: 4px; }
+  .segmented button, .action, .icon-button { min-height: 40px; }
+  .actions.roads .action { padding: 6px 4px; }
+  .panel > header { padding-top: 8px; padding-bottom: 2px; }
+  .tabs { margin-bottom: 8px; }
+  .segmented button { padding-top: 6px; padding-bottom: 6px; }
+}
+@media (max-width: 420px) { .field.inline .segmented button { padding-left: 4px; padding-right: 4px; font-size: 13px; } .field.inline .field-label { width: 48px; } } /* five choices in the Light row on a narrow phone */
+
+/* A line that fills in later is never empty and never taller than its room: one line, or two where marked, each cut short with an ellipsis if it is too long. */
+.stack.live .note { height: 1.4em; min-height: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.note.two { display: flex; flex-direction: column; height: 2.9em; line-height: 1.45; }
+.note.two span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.note.two span:first-child { color: var(--ink); }
+.kinds { height: 1.4em; min-height: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.4; }
+/* what the headings, the column names, the tabs and the gaps take differs a little between a phone or an iPad (tighter padding) and a laptop, and each gets its own budget so the twelve rows fill the panel */
+@media (max-width: 899px) { .stack.live, .stack.results { --chrome: 309px; } }
+@media (max-width: 899px) and (max-height: 760px) { .stack.live, .stack.results { --chrome: 289px; } }
+
+/* A short landscape screen (a phone on its side): the Live and Results pages are two columns that fill the whole height, as the portrait ones do, so there is no empty strip at the bottom. The shorter column's rows
+   stretch to meet the longer one. */
+@media (max-height: 520px) and (min-width: 560px) {
+  .stack.live, .stack.results { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 24px; row-gap: 8px; height: 100%; column-count: auto; --panel-h: calc(100dvh - 2 * var(--gap)); --rh: clamp(16px, calc((var(--panel-h) - 212px) / 7), 27px); }
+  .stack.live > *, .stack.results > * { margin: 0; min-height: 0; }
+  .stack.live { grid-template-rows: 1fr; }
+  .stack.live > :nth-child(1) { grid-column: 1; display: flex; flex-direction: column; }
+  .stack.live > :nth-child(1) .tiles { flex: 1 1 auto; }
+  .stack.live > :nth-child(2) { grid-column: 2; }
+  .stack.results { grid-template-rows: auto 1fr; }
+  .stack.results > :nth-child(1) { grid-column: 1; grid-row: 1 / span 2; }
+  .stack.results > :nth-child(2) { grid-column: 2; grid-row: 1; }
+  .stack.results > :nth-child(3) { grid-column: 2; grid-row: 2; }
+  .stack.results > .block { display: flex; flex-direction: column; }
+  .stack.results > :nth-child(1) .rtable, .stack.results > :nth-child(3) .rtable { flex: 1 1 auto; min-height: 0; }
+  .stack.results > :nth-child(1) .rrow:not(.head), .stack.results > :nth-child(3) .rrow:not(.head) { flex: 1 1 0; height: auto; }
+  .stack.results > :nth-child(2) .rrow:not(.head) { height: var(--rh); }
+  .rrow > :first-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .stack.live .note { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+}
+@media (max-height: 340px) and (min-width: 480px) { /* the smallest landscape screens: a little less type, and the two columns tighter */
+  .stack.results .rrow { font-size: 12px; grid-template-columns: minmax(0, 1fr) 36px 50px 74px; }
+  .stack.results .rrow.two { grid-template-columns: minmax(0, 1fr) 74px 74px; }
+  .stack.live, .stack.results { column-gap: 16px; row-gap: 4px; }
+  .stack.results > :nth-child(1) .block h3, .stack.results .block h3 { padding: 2px 8px; font-size: 12px; }
+}

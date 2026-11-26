@@ -1,0 +1,1060 @@
+[
+ {
+  "name": "power on: flashing red, then all red, then the first green",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [],
+  "expect": [
+   {
+    "t": 0,
+    "phase": "",
+    "stage": "flash",
+    "remaining": 5,
+    "heads": [
+     "flash",
+     "flash",
+     "flash",
+     "flash"
+    ],
+    "signals": {
+     "T1": "flash",
+     "T2": "flash",
+     "T3": "flash",
+     "T4": "flash",
+     "R1": "flash",
+     "R2": "flash",
+     "R3": "flash",
+     "R4": "flash",
+     "C1": "stop",
+     "C2": "stop",
+     "C3": "stop",
+     "C4": "stop"
+    },
+    "fault": null
+   },
+   {
+    "t": 4,
+    "phase": "",
+    "stage": "flash",
+    "remaining": 1,
+    "heads": [
+     "flash",
+     "flash",
+     "flash",
+     "flash"
+    ],
+    "signals": {
+     "T1": "flash",
+     "T2": "flash",
+     "T3": "flash",
+     "T4": "flash",
+     "R1": "flash",
+     "R2": "flash",
+     "R3": "flash",
+     "R4": "flash",
+     "C1": "stop",
+     "C2": "stop",
+     "C3": "stop",
+     "C4": "stop"
+    }
+   },
+   {
+    "t": 5,
+    "phase": "",
+    "stage": "all_red",
+    "remaining": 2,
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ]
+   },
+   {
+    "t": 6,
+    "phase": "",
+    "stage": "all_red",
+    "remaining": 1,
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ]
+   },
+   {
+    "t": 7,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 10
+   },
+   {
+    "t": 16,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 1
+   },
+   {
+    "t": 17,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 4
+   }
+  ],
+  "power_on": true
+ },
+ {
+  "name": "a fault flashes everything, and clearing it goes through startup",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 3,
+    "fault": "link",
+    "result": true
+   },
+   {
+    "t": 5,
+    "fault": "manual",
+    "result": false
+   },
+   {
+    "t": 10,
+    "clear_fault": true,
+    "result": true
+   },
+   {
+    "t": 10,
+    "clear_fault": true,
+    "result": false
+   }
+  ],
+  "expect": [
+   {
+    "t": 3,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 7
+   },
+   {
+    "t": 4,
+    "phase": "",
+    "stage": "fault",
+    "remaining": 1,
+    "heads": [
+     "flash",
+     "flash",
+     "flash",
+     "flash"
+    ],
+    "signals": {
+     "T1": "flash",
+     "T2": "flash",
+     "T3": "flash",
+     "T4": "flash",
+     "R1": "flash",
+     "R2": "flash",
+     "R3": "flash",
+     "R4": "flash",
+     "C1": "stop",
+     "C2": "stop",
+     "C3": "stop",
+     "C4": "stop"
+    },
+    "fault": "link"
+   },
+   {
+    "t": 5,
+    "phase": "",
+    "stage": "fault",
+    "remaining": 1,
+    "heads": [
+     "flash",
+     "flash",
+     "flash",
+     "flash"
+    ],
+    "signals": {
+     "T1": "flash",
+     "T2": "flash",
+     "T3": "flash",
+     "T4": "flash",
+     "R1": "flash",
+     "R2": "flash",
+     "R3": "flash",
+     "R4": "flash",
+     "C1": "stop",
+     "C2": "stop",
+     "C3": "stop",
+     "C4": "stop"
+    },
+    "fault": "link"
+   },
+   {
+    "t": 10,
+    "phase": "",
+    "stage": "fault",
+    "remaining": 1,
+    "heads": [
+     "flash",
+     "flash",
+     "flash",
+     "flash"
+    ],
+    "signals": {
+     "T1": "flash",
+     "T2": "flash",
+     "T3": "flash",
+     "T4": "flash",
+     "R1": "flash",
+     "R2": "flash",
+     "R3": "flash",
+     "R4": "flash",
+     "C1": "stop",
+     "C2": "stop",
+     "C3": "stop",
+     "C4": "stop"
+    },
+    "fault": "link"
+   },
+   {
+    "t": 11,
+    "phase": "",
+    "stage": "flash",
+    "remaining": 5,
+    "heads": [
+     "flash",
+     "flash",
+     "flash",
+     "flash"
+    ],
+    "signals": {
+     "T1": "flash",
+     "T2": "flash",
+     "T3": "flash",
+     "T4": "flash",
+     "R1": "flash",
+     "R2": "flash",
+     "R3": "flash",
+     "R4": "flash",
+     "C1": "stop",
+     "C2": "stop",
+     "C3": "stop",
+     "C4": "stop"
+    },
+    "fault": null
+   },
+   {
+    "t": 15,
+    "phase": "",
+    "stage": "flash",
+    "remaining": 1,
+    "heads": [
+     "flash",
+     "flash",
+     "flash",
+     "flash"
+    ],
+    "signals": {
+     "T1": "flash",
+     "T2": "flash",
+     "T3": "flash",
+     "T4": "flash",
+     "R1": "flash",
+     "R2": "flash",
+     "R3": "flash",
+     "R4": "flash",
+     "C1": "stop",
+     "C2": "stop",
+     "C3": "stop",
+     "C4": "stop"
+    }
+   },
+   {
+    "t": 16,
+    "phase": "",
+    "stage": "all_red",
+    "remaining": 2,
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ]
+   },
+   {
+    "t": 17,
+    "phase": "",
+    "stage": "all_red",
+    "remaining": 1,
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ]
+   },
+   {
+    "t": 18,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 10
+   }
+  ]
+ },
+ {
+  "name": "an emergency made during startup is served as soon as the cycle starts",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 2,
+    "pause": {
+     "vehicle": "a",
+     "approach": 2
+    },
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 0,
+    "phase": "",
+    "stage": "flash",
+    "remaining": 5,
+    "heads": [
+     "flash",
+     "flash",
+     "flash",
+     "flash"
+    ],
+    "signals": {
+     "T1": "flash",
+     "T2": "flash",
+     "T3": "flash",
+     "T4": "flash",
+     "R1": "flash",
+     "R2": "flash",
+     "R3": "flash",
+     "R4": "flash",
+     "C1": "stop",
+     "C2": "stop",
+     "C3": "stop",
+     "C4": "stop"
+    }
+   },
+   {
+    "t": 5,
+    "phase": "",
+    "stage": "all_red",
+    "remaining": 2,
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ]
+   },
+   {
+    "t": 7,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10,
+    "holding": true,
+    "emergency_approach": 2
+   }
+  ],
+  "power_on": true
+ },
+ {
+  "name": "a fault does not forget an emergency that is waiting",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 3,
+    "pause": {
+     "vehicle": "a",
+     "approach": 2
+    },
+    "result": true
+   },
+   {
+    "t": 20,
+    "fault": "conflict",
+    "result": true
+   },
+   {
+    "t": 30,
+    "clear_fault": true,
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 20,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10,
+    "holding": true
+   },
+   {
+    "t": 21,
+    "phase": "",
+    "stage": "fault",
+    "remaining": 1,
+    "heads": [
+     "flash",
+     "flash",
+     "flash",
+     "flash"
+    ],
+    "signals": {
+     "T1": "flash",
+     "T2": "flash",
+     "T3": "flash",
+     "T4": "flash",
+     "R1": "flash",
+     "R2": "flash",
+     "R3": "flash",
+     "R4": "flash",
+     "C1": "stop",
+     "C2": "stop",
+     "C3": "stop",
+     "C4": "stop"
+    },
+    "fault": "conflict",
+    "emergency_approach": 2,
+    "holding": false
+   },
+   {
+    "t": 31,
+    "phase": "",
+    "stage": "flash",
+    "remaining": 5,
+    "heads": [
+     "flash",
+     "flash",
+     "flash",
+     "flash"
+    ],
+    "signals": {
+     "T1": "flash",
+     "T2": "flash",
+     "T3": "flash",
+     "T4": "flash",
+     "R1": "flash",
+     "R2": "flash",
+     "R3": "flash",
+     "R4": "flash",
+     "C1": "stop",
+     "C2": "stop",
+     "C3": "stop",
+     "C4": "stop"
+    }
+   },
+   {
+    "t": 36,
+    "phase": "",
+    "stage": "all_red",
+    "remaining": 2,
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ]
+   },
+   {
+    "t": 38,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10,
+    "holding": true,
+    "emergency_approach": 2
+   }
+  ]
+ },
+ {
+  "name": "a button press survives a fault and is served when the cycle restarts",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 0,
+    "request": 2,
+    "result": true
+   },
+   {
+    "t": 10,
+    "fault": "manual",
+    "result": true
+   },
+   {
+    "t": 20,
+    "clear_fault": true,
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 11,
+    "phase": "",
+    "stage": "fault",
+    "remaining": 1,
+    "heads": [
+     "flash",
+     "flash",
+     "flash",
+     "flash"
+    ],
+    "signals": {
+     "T1": "flash",
+     "T2": "flash",
+     "T3": "flash",
+     "T4": "flash",
+     "R1": "flash",
+     "R2": "flash",
+     "R3": "flash",
+     "R4": "flash",
+     "C1": "stop",
+     "C2": "stop",
+     "C3": "stop",
+     "C4": "stop"
+    },
+    "fault": "manual",
+    "pedestrian_requests": [
+     2
+    ]
+   },
+   {
+    "t": 26,
+    "phase": "",
+    "stage": "all_red",
+    "remaining": 2,
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ]
+   },
+   {
+    "t": 28,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 13,
+    "pedestrian_requests": [],
+    "signals": {
+     "C2": "walk"
+    }
+   }
+  ]
+ },
+ {
+  "name": "fixed mode ignores counts and runs default timing",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 0,
+    "mode": "fixed"
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 30,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 30,
+      "trucks": 0
+     }
+    }
+   }
+  ],
+  "expect": [
+   {
+    "t": 16,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10,
+    "mode": "fixed"
+   }
+  ]
+ },
+ {
+  "name": "adaptive mode would have used those counts",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 8,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 30,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 30,
+      "trucks": 0
+     }
+    }
+   }
+  ],
+  "expect": [
+   {
+    "t": 16,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 60,
+    "mode": "adaptive"
+   }
+  ]
+ },
+ {
+  "name": "fixed mode never skips an empty phase",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 0,
+    "mode": "fixed"
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   }
+  ],
+  "expect": [
+   {
+    "t": 10,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 4,
+    "mode": "fixed"
+   }
+  ]
+ },
+ {
+  "name": "switching back to adaptive uses the counts again",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 0,
+    "mode": "fixed"
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 8,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     }
+    }
+   },
+   {
+    "t": 9,
+    "mode": "adaptive"
+   }
+  ],
+  "expect": [
+   {
+    "t": 10,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 10,
+    "mode": "adaptive"
+   }
+  ]
+ },
+ {
+  "name": "fixed mode ignores bus priority",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 0,
+    "mode": "fixed"
+   },
+   {
+    "t": 2,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 1,
+      "cars": 0,
+      "trucks": 0
+     },
+     "lane": "bus"
+    }
+   }
+  ],
+  "expect": [
+   {
+    "t": 9,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 1,
+    "mode": "fixed"
+   },
+   {
+    "t": 10,
+    "phase": "T13",
+    "stage": "yellow",
+    "heads": [
+     "yellow",
+     "red",
+     "yellow",
+     "red"
+    ],
+    "remaining": 4,
+    "mode": "fixed",
+    "bus_priority": false
+   }
+  ],
+  "clock_start_s": 25200
+ },
+ {
+  "name": "fixed mode still serves pedestrians",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 0,
+    "mode": "fixed"
+   },
+   {
+    "t": 0,
+    "request": 2,
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 32,
+    "phase": "T13",
+    "stage": "green",
+    "heads": [
+     "green",
+     "red",
+     "green",
+     "red"
+    ],
+    "remaining": 13,
+    "mode": "fixed",
+    "signals": {
+     "C2": "walk"
+    }
+   }
+  ]
+ },
+ {
+  "name": "fixed mode still serves emergencies",
+  "config": {
+   "plan": "through_only",
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 0,
+    "mode": "fixed"
+   },
+   {
+    "t": 3,
+    "pause": {
+     "vehicle": "a",
+     "approach": 2
+    },
+    "result": true
+   }
+  ],
+  "expect": [
+   {
+    "t": 11,
+    "phase": "T24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "green",
+     "red",
+     "green"
+    ],
+    "remaining": 10,
+    "holding": true,
+    "emergency_approach": 2,
+    "mode": "fixed"
+   }
+  ]
+ },
+ {
+  "name": "fixed mode with arrows runs every arrow phase",
+  "config": {
+   "turn_hold": 0,
+   "left_arrow": false
+  },
+  "events": [
+   {
+    "t": 0,
+    "mode": "fixed"
+   },
+   {
+    "t": 2,
+    "report": {
+     "approach": 2,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     },
+     "lane": "right"
+    }
+   },
+   {
+    "t": 2,
+    "report": {
+     "approach": 4,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     },
+     "lane": "right"
+    }
+   },
+   {
+    "t": 2,
+    "report": {
+     "approach": 1,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     },
+     "lane": "right"
+    }
+   },
+   {
+    "t": 2,
+    "report": {
+     "approach": 3,
+     "counts": {
+      "bikes": 0,
+      "buses": 0,
+      "cars": 0,
+      "trucks": 0
+     },
+     "lane": "right"
+    }
+   }
+  ],
+  "expect": [
+   {
+    "t": 16,
+    "phase": "R24",
+    "stage": "green",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 10,
+    "mode": "fixed"
+   },
+   {
+    "t": 48,
+    "phase": "R13",
+    "stage": "green",
+    "heads": [
+     "red",
+     "red",
+     "red",
+     "red"
+    ],
+    "remaining": 10
+   }
+  ]
+ }
+]
